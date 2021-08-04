@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 # coding: utf-8
 '''
 Created on 2017-03-06
@@ -6,14 +6,14 @@ Created on 2017-03-06
 @author: Fernand
 '''
 
-import gtk
+import gi
 import sys, os
-from gtk import gdk
-import pygtk
-pygtk.require('2.0')
-import ConfigParser
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gdk
+
+import configparser
 import gettext, re
-import pango
+from gi.repository import Pango
 
 translate_test = True
 
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         lang = gettext.translation(APP_NAME, nativecam_locale, fallback = True)
         lang.install()
     except :
-        gettext.install(APP_NAME, None, unicode = True)
+        gettext.install(APP_NAME, None, str = True)
 
 def translate(fstring):
     # translate the glade file when testing translation
@@ -95,11 +95,11 @@ class PrefEditor():
         self.path = path
         self.default_metric = is_metric
         self.cfg_file = os.path.join(path, 'catalogs', 'ncam.conf')
-        self.config_pref = ConfigParser.ConfigParser()
+        self.config_pref = configparser.ConfigParser()
         self.config_pref.read(self.cfg_file)
 
         self.pref_file = os.path.join(path, 'catalogs', catalog, 'default.conf')
-        self.config_def = ConfigParser.ConfigParser()
+        self.config_def = configparser.ConfigParser()
         self.config_def.read(self.pref_file)
         self.catalog = catalog
 
@@ -108,7 +108,7 @@ class PrefEditor():
         except :
             raise IOError(_("Expected file not found : %s") % 'ncam_pref.glade')
 
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         if translate_test :
             gf = translate(gf)
         else :
@@ -125,7 +125,7 @@ class PrefEditor():
         else :
             parent = None
 
-        builder.get_object("valueLbl").modify_font(pango.FontDescription('sans 16'))
+        builder.get_object("valueLbl").modify_font(Pango.FontDescription('sans 16'))
         self.adj_WindowWidth = builder.get_object("hscaleWindowWidth").get_adjustment()
         self.adj_tvWidth = builder.get_object("hscaleTVWidth").get_adjustment()
         self.adj_nameColWidth = builder.get_object("hscaleNameColWidth").get_adjustment()
@@ -362,8 +362,8 @@ class PrefEditor():
         imgfile = os.path.join(self.path, 'graphics', icon)
         if imgfile is not None :
             try :
-                return gdk.pixbuf_new_from_file_at_size(imgfile, size, size)
-            except gdk.PixbufError as err :
+                return Gdk.pixbuf_new_from_file_at_size(imgfile, size, size)
+            except Gdk.PixbufError as err :
                 print(err)
         return None
 

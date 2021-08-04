@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 #
 # Copyright (c) 2012 Nick Drobchenko aka Nick from cnc-club.ru
@@ -21,9 +21,9 @@
 ##########################################
 
 import sys
-
-import pygtk
-pygtk.require('2.0')
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
 from lxml import etree
 import os
@@ -48,16 +48,16 @@ for x in xml.findall(".//{http://www.w3.org/2000/svg}title") :
 				h, w = 80, 80 * w / h
 			try :
 				s = "inkscape icons.svg --export-png=../%s.png --export-id-only --export-id=%s --export-area-snap --export-width=%spx --export-height=%spx " % (x.text, id_, w, h)
-				print os.popen(s).read()
-				print "Created %s" % x.text
-			except Exception, e :
-				print e
-		else : print "Skipping %s" % x.text
-	except Exception, e :
-		print
-		print "Error with the file %s.png!" % (x.text)
-		print e
-		print
-	print
+				print((os.popen(s).read()))
+				print(("Created %s" % x.text))
+			except Exception as e :
+				print(e)
+		else : print(("Skipping %s" % x.text))
+	except Exception as e :
+		print()
+		print(("Error with the file %s.png!" % (x.text)))
+		print(e)
+		print()
+	print()
 
 
