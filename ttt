@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 import sys
@@ -89,8 +89,8 @@ except subprocess.CalledProcessError as e:
     msg = 'Error with subprocess: returncode = %(errcode)s\n' \
              'output = %(output)s\ne= %(e)s\n' \
              % {'errcode':e.returncode, 'output':e.output, 'e':e}
-    print('o<%s_engrave> sub\n' % sub_name)
-    print('o<%s_engrave> endsub\n' % sub_name)
+    print(('o<%s_engrave> sub\n' % sub_name))
+    print(('o<%s_engrave> endsub\n' % sub_name))
     exit(-1)
 
 gc_line = re.sub(r"G00 Z #1\nM02\n", '', gc_line)
@@ -178,4 +178,4 @@ for aline in text.split('\n') :
     result_call += '\to<%s-line-%d> CALL [#1] [#2] [#3] [#4] [#5]\n' % (sub_name, line_processed)
     line_processed += 1
 
-print result + result_call + 'o<%s_engrave> endsub\n' % sub_name
+print((result + result_call + 'o<%s_engrave> endsub\n' % sub_name))
